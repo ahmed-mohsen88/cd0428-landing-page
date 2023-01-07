@@ -50,7 +50,7 @@ const build_nav = () => {
                                 `;
     fragment.appendChild(li_Element);
   }
-  navList.appendChild(fragment);
+  navList.appendChild(fragment); //add all li at once
 };
 
 // Add class 'active' to section when near top of viewport
@@ -59,7 +59,7 @@ const set_Active_Section = () => {
     sections.forEach(function (section) {
       if (
         section.getBoundingClientRect().y >= 0.5 &&
-        section.getBoundingClientRect().y <= 577
+        section.getBoundingClientRect().y <= 577 //get from console.log(section.getBoundingClientRect())
       ) {
         section.classList.add("your-active-class");
       } else {
@@ -74,6 +74,7 @@ const scrollTo_section = () => {
   navList.addEventListener("click", function (event) {
     event.preventDefault();
     if (event.target.dataset.nav) {
+      //select only section was clicked or targeted
       document
         .getElementById(`${event.target.dataset.nav}`)
         .scrollIntoView({ behavior: "smooth" });
