@@ -14,7 +14,7 @@ Install landing page by just download it and head to index.html and run in live 
 
 ## Demo
 
-Insert gif or link to demo
+![Logo](./ezgif.com-gif-maker.gif)
 
 ## Contributing
 
