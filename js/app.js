@@ -22,9 +22,9 @@
  * Define Global Variables
  *
  */
-const fragment = document.createDocumentFragment();
 const navList = document.getElementById("navbar__list");
-const sections = document.getElementsByTagName("section");
+const sections = document.querySelectorAll("section");
+const sectionsList_number = sections.length;
 /**
  * End Global Variables
  * Start Helper Functions
@@ -38,40 +38,47 @@ const sections = document.getElementsByTagName("section");
  */
 
 // build the nav
-const build_nav = (index) => {
-  const li_Element = document.createElement("li");
-  li_Element.innerHTML = `<a href="#"
-                                  data-nav ="section${index}"
-                                  class = "menu__link"
-                                  > Section ${index}
-                                  </a>
-                              `;
-  fragment.appendChild(li_Element);
+const build_nav = () => {
+  const fragment = document.createDocumentFragment();
+  for (let index = 1; index <= sectionsList_number; index++) {
+    const li_Element = document.createElement("li");
+    li_Element.innerHTML = `<a href="#"
+                                    data-nav ="section${index}"
+                                    class = "menu__link"
+                                    > Section ${index}
+                                    </a>
+                                `;
+    fragment.appendChild(li_Element);
+  }
+  navList.appendChild(fragment);
 };
 
 // Add class 'active' to section when near top of viewport
-
-const section_to_active = (section) => {
-  console.log(section.id);
-  console.log(section.getBoundingClientRect());
-  if (
-    section.getBoundingClientRect().y >= 0.5 &&
-    section.getBoundingClientRect().y <= 577
-  ) {
-    section.classList.add("your-active-class");
-  } else {
-    section.classList.remove("your-active-class");
-  }
+const set_Active_Section = () => {
+  window.onscroll = () => {
+    sections.forEach(function (section) {
+      if (
+        section.getBoundingClientRect().y >= 0.5 &&
+        section.getBoundingClientRect().y <= 577
+      ) {
+        section.classList.add("your-active-class");
+      } else {
+        section.classList.remove("your-active-class");
+      }
+    });
+  };
 };
 
 // Scroll to anchor ID using scrollTO event
-const scrollTo_section = (event) => {
-  event.preventDefault();
-  if (event.target.dataset.nav) {
-    document
-      .getElementById(`${event.target.dataset.nav}`)
-      .scrollIntoView({ behavior: "smooth" });
-  }
+const scrollTo_section = () => {
+  navList.addEventListener("click", function (event) {
+    event.preventDefault();
+    if (event.target.dataset.nav) {
+      document
+        .getElementById(`${event.target.dataset.nav}`)
+        .scrollIntoView({ behavior: "smooth" });
+    }
+  });
 };
 
 /**
@@ -81,15 +88,12 @@ const scrollTo_section = (event) => {
  */
 
 // Build menu
-for (let index = 1; index <= sections.length; index++) {
-  build_nav(index);
-}
-navList.appendChild(fragment);
-
+// for (let index = 1; index <= sectionsList_number; index++) {
+//   build_nav(index);
+// }
+// navList.appendChild(fragment);
+build_nav();
 // Scroll to section on link click
-navList.addEventListener("click", scrollTo_section);
-
+scrollTo_section();
 // Set sections as active
-window.onscroll = () => {
-  document.querySelectorAll("section").forEach(section_to_active);
-};
+set_Active_Section();
