@@ -42,7 +42,7 @@ const build_nav = () => {
   const fragment = document.createDocumentFragment();
   for (let index = 1; index <= sectionsList_number; index++) {
     const li_Element = document.createElement("li");
-    li_Element.innerHTML = `<a href="#"
+    li_Element.innerHTML = `<a href="#section${index}"
                                     data-nav ="section${index}"
                                     class = "menu__link"
                                     > Section ${index}
