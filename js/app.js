@@ -25,7 +25,6 @@
 const nav_list = document.getElementById("navbar__list");
 const sections = document.querySelectorAll("section");
 const sectionsList_number = sections.length;
-const scrollTop = document.getElementById("scrollTop");
 const button__container = document.getElementById("button__container");
 const collapse = document.querySelectorAll(".collapse");
 
@@ -76,7 +75,7 @@ function collapse_section() {
     }
     // event to collapse or expand the section
     button.addEventListener("click", (e) => {
-      console.log(e.target.parentElement);
+      // console.log(e.target.parentElement);
       const contents = e.target.nextElementSibling.children; //get children of each section
       // console.log(contents);
       for (const content of contents) {
@@ -86,7 +85,6 @@ function collapse_section() {
           if (content.style.display === "none") {
             content.style.display = "block";
             button.innerText = "Collapse";
-       
           } else {
             content.style.display = "none";
             e.target.parentElement.style.minHeight = "0vh";
