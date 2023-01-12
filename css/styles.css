@@ -10,6 +10,7 @@
 
 /* ---- Base Rules ---- */
 
+/* start my collapse btn style */
 .collapse {
   font-family: "Merriweather", serif;
   display: block;
@@ -29,6 +30,10 @@
   background: #333;
   transition: ease 0.3s all;
 }
+/* end my collapse btn style */
+
+/* start my scroll btn style */
+
 .scrollTop {
   font-family: "Merriweather", serif;
   display: block;
@@ -47,7 +52,9 @@
   color: #fff;
   transition: ease 0.3s all;
 }
+/* end my collapse btn style */
 
+/* start media screen style */
 @media screen and (max-width: 600px) {
   .collapse {
     font-size: 0.5rem;
@@ -57,6 +64,7 @@
     font-size: 0.8rem;
   }
 }
+/* end media screen style */
 
 body {
   background: rgb(136, 203, 171);
