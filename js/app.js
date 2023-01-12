@@ -102,6 +102,7 @@ function scroll_button() {
     const scrollBtn = document.createElement("button");
     scrollBtn.textContent = `Scroll to Top`;
     scrollBtn.classList.add("scrollTop");
+    scrollBtn.style.cursor = "pointer";
     button__container.appendChild(scrollBtn);
     scrollBtn.onclick = () => {
       window.scrollTo({
