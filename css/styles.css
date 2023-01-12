@@ -14,7 +14,7 @@
   font-family: "Merriweather", serif;
   display: block;
   position: absolute;
-  top: 17%;
+  bottom: 20px;
   padding: 1em;
   font-size: 1rem;
   font-weight: bold;
@@ -22,6 +22,7 @@
   color: #fff;
   background-color: inherit;
   cursor: pointer;
+  transform: translate();
 }
 .collapse:hover {
   color: #fff;
@@ -46,6 +47,17 @@
   color: #fff;
   transition: ease 0.3s all;
 }
+
+@media screen and (max-width: 600px) {
+  .collapse {
+    font-size: 0.5rem;
+    bottom: 0.5rem;
+  }
+  .menu__link {
+    font-size: 0.8rem;
+  }
+}
+
 body {
   background: rgb(136, 203, 171);
   background: linear-gradient(
@@ -96,7 +108,7 @@ main {
 
 section {
   position: relative;
-  min-height: 80vh;
+  /* min-height: 80vh; */
 }
 
 /* ---- Module Rules ---- */

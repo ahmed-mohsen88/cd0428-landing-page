@@ -70,9 +70,9 @@ function collapse_section() {
   collapse.forEach((button, index) => {
     // check section to align button lef or right
     if (index % 2 == 0) {
-      button.style.right = "3%";
+      button.style.right = "2%";
     } else {
-      button.style.left = "3%";
+      button.style.left = "2%";
     }
     // event to collapse or expand the section
     button.addEventListener("click", (e) => {
@@ -85,10 +85,12 @@ function collapse_section() {
           // check to collapse all except h2
           if (content.style.display === "none") {
             content.style.display = "block";
-            e.target.parentElement.style.minHeight = "80vh";
+            button.innerText = "Collapse";
+       
           } else {
             content.style.display = "none";
             e.target.parentElement.style.minHeight = "0vh";
+            button.innerText = "Expand";
           }
         }
       }
