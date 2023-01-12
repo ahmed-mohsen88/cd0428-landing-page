@@ -25,7 +25,9 @@
 const nav_list = document.getElementById("navbar__list");
 const sections = document.querySelectorAll("section");
 const sectionsList_number = sections.length;
-const menuLink = document.querySelectorAll(".menu__link");
+const scrollTop = document.getElementById("scrollTop");
+const button__container = document.getElementById("button__container");
+const collapse = document.querySelectorAll(".collapse");
 
 /**
  * End Global Variables
@@ -33,22 +35,93 @@ const menuLink = document.querySelectorAll(".menu__link");
  *
  */
 
+// make active class and highlight active section in navbar
+function makeActive() {
+  for (const section of sections) {
+    const box = section.getBoundingClientRect();
+    if (box.top <= 150 && box.bottom >= 150) {
+      //add active state from other section and corresponding Nav link
+      section.classList.add("your-active-class");
+      //add highlight to navigation
+      document.querySelectorAll(".menu__link").forEach((link, index) => {
+        if (`section${index + 1}` == section.id) {
+          link.style.cssText =
+            "background: #333;color: #fff;transition: ease 0.3s all";
+        } else {
+          link.style.cssText =
+            "display: block;padding: 1em;font-weight: bold;text-decoration: none;";
+        }
+      });
+    } else {
+      //Remove active state from other section and corresponding Nav link
+      section.classList.remove("your-active-class");
+    }
+  }
+}
+
 /**
  * End Helper Functions
  * Begin Main Functions
  *
  */
 
+//collapse and expand button
+function collapse_section() {
+  collapse.forEach((button, index) => {
+    // check section to align button lef or right
+    if (index % 2 == 0) {
+      button.style.right = "3%";
+    } else {
+      button.style.left = "3%";
+    }
+    // event to collapse or expand the section
+    button.addEventListener("click", (e) => {
+      console.log(e.target.parentElement);
+      const contents = e.target.nextElementSibling.children; //get children of each section
+      // console.log(contents);
+      for (const content of contents) {
+        //loop through element of section
+        if (content.tagName != "H2") {
+          // check to collapse all except h2
+          if (content.style.display === "none") {
+            content.style.display = "block";
+            e.target.parentElement.style.minHeight = "80vh";
+          } else {
+            content.style.display = "none";
+            e.target.parentElement.style.minHeight = "0vh";
+          }
+        }
+      }
+    });
+  });
+}
+
+// build scroll to top button
+function scroll_button() {
+  document.addEventListener("DOMContentLoaded", () => {
+    const scrollBtn = document.createElement("button");
+    scrollBtn.textContent = `Scroll to Top`;
+    scrollBtn.classList.add("scrollTop");
+    button__container.appendChild(scrollBtn);
+    scrollBtn.onclick = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+  });
+}
+
 // build the nav
 const build_nav = () => {
   const fragment = document.createDocumentFragment();
   for (let index = 1; index <= sectionsList_number; index++) {
     const li_Element = document.createElement("li");
-    li_Element.innerHTML = `<a    href = "#"
-                                      class="menu__link"
-                                      > Section ${index}
-                                      </a>
-                                  `;
+    li_Element.innerHTML = `<a        href = "#"
+                                        class="menu__link"
+                                        > Section ${index}
+                                        </a>
+                                    `;
     fragment.appendChild(li_Element);
   }
   nav_list.appendChild(fragment); //add all li at once
@@ -56,58 +129,35 @@ const build_nav = () => {
 
 // Add class 'active' to section when near top of viewport
 const set_Active_Section = () => {
-  //### function 1
-  document.body.onscroll = () => {
-    //loop through all sections in the page
-    sections.forEach((section) => {
-      const sectionLocation = section.getBoundingClientRect();
-      // ## check section location on viewport
-      // console.log(
-      //   `${el.id}  top:${sectionLocation.top} bottom:${sectionLocation.bottom} height: ${sectionLocation.height} window: ${window.innerHeight}  `
-      // );
-      if (sectionLocation.top - sectionLocation.height <= -577) {
-        //if section on screen viewport
-        section.classList.add("your-active-class");
-
-        // loop through menu link to highlight it
-        menuLink.forEach((link, index) => {
-          console.log(section.id);
-          if (`section${index + 1}` == section.id) {
-            console.log(link);
-            link.style.cssText =
-              "background: #333;color: #fff;transition: ease 0.3s all";
-          } else {
-            link.style.cssText =
-              "display: block;padding: 1em;font-weight: bold;text-decoration: none;";
-          }
-        });
-      } else {
-        section.classList.remove("your-active-class");
-      }
-    });
-  };
-  // ### function 2
+  window.addEventListener("scroll", () => {
+    makeActive();
+  });
+  //### another functions
   // document.body.onscroll = () => {
-  //   sections.forEach((el) => {
-  //     sectionLocation = el.getBoundingClientRect();
-  //     if (sectionLocation.bottom < window.innerHeight) {
-  //       el.classList.add("your-active-class");
-
-  //       menuLink.forEach((element, index) => {
-  //         console.log(el.id);
-  //         if (`section${index + 1}` == el.id) {
-  //           console.log(element);
-  //           element.style.cssText =
-  //             "background: #333;color: #fff;transition: ease 0.3s all";
-  //         } else {
-  //           element.style.cssText =
-  //             "display: block;padding: 1em;font-weight: bold;text-decoration: none;";
-  //         }
-  //       });
-  //     } else {
-  //       el.classList.remove("your-active-class");
-  //     }
-  //   });
+  //loop through all sections in the page
+  // sections.forEach((section) => {
+  //   const sectionLocation = section.getBoundingClientRect();
+  //   // ## check section location on viewport
+  //   console.log(
+  //     `${section.id}  top:${sectionLocation.top} bottom:${sectionLocation.bottom} height: ${sectionLocation.height} window: ${window.innerHeight}  `
+  //   );
+  //   if (sectionLocation.top - sectionLocation.height <= -577) {
+  //     //if section on screen viewport
+  //     section.classList.add("your-active-class");
+  //     // loop through menu link to highlight it
+  //     document.querySelectorAll(".menu__link").forEach((link, index) => {
+  //       if (`section${index + 1}` == section.id) {
+  //         link.style.cssText =
+  //           "background: #333;color: #fff;transition: ease 0.3s all";
+  //       } else {
+  //         link.style.cssText =
+  //           "display: block;padding: 1em;font-weight: bold;text-decoration: none;";
+  //       }
+  //     });
+  //   } else {
+  //     section.classList.remove("your-active-class");
+  //   }
+  // });
   // };
 };
 
@@ -117,7 +167,7 @@ const scrollTo_section = () => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       let scrollToSection = document.getElementById(`section${ind + 1}`);
-      console.log(document.getElementById(`section${ind}`));
+      // console.log(document.getElementById(`section${ind}`));
       window.scrollBy({
         top: `${scrollToSection.getBoundingClientRect().top}`,
         behavior: "smooth",
@@ -133,12 +183,12 @@ const scrollTo_section = () => {
  */
 
 // Build menu
-// for (let index = 1; index <= sectionsList_number; index++) {
-//   build_nav(index);
-// }
-// navList.appendChild(fragment);
 build_nav();
+// scroll Top Button
+scroll_button();
 // Scroll to section on link click
 scrollTo_section();
 // Set sections as active
 set_Active_Section();
+//collapse and expand button
+collapse_section();
